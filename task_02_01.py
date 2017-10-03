@@ -6,6 +6,6 @@ def is_palindrome(s):
     s =(''.join([str(m) for m in output]))# преобразуем list в строку строка без пробелов
     s=s.lower()#все символы без регистра
     if s == s[::-1]:# если строка равна с реверсом то TRUE ибо False
-        print(True)
+        return True
     else:
-        print(False)
+        return False
