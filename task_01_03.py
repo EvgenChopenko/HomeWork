@@ -7,8 +7,8 @@ while n < len(lst):
     for i in range(len(lst) - n):
         if lst[i] > lst[i + 1]:
             lst[i], lst[i + 1] = lst[i + 1], lst[i]
-            print(i)
+            #print(i)
     n += 1
 
 
-    print(','.join([str(m) for m in lst]))# ужасный способ вывода ((
+print(','.join([str(m) for m in lst]))# ужасный способ вывода ((
