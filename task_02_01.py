@@ -2,6 +2,13 @@ def is_palindrome(s):
     output = list()
     s=str(s)# преобразуем все входные параметры в строки
     s = s.strip(".")# удаляем точку в конце и в начале
+    s = s.replace('-', '')
+    s = s.replace(',', '')
+    s = s.replace('.', '')
+    s = s.replace('!', '')
+    s = s.replace('?', '')
+    s = s.replace(':', '')
+    s = s.replace(';', '')
     for w in s.split():
         output.append(w.strip(','))# удаляем пробелы в тексте и запятые
     s =(''.join([str(m) for m in output]))# преобразуем list в строку строка без пробелов
@@ -13,4 +20,3 @@ def is_palindrome(s):
         return False
 
 
-print(is_palindrome("fff-ff,f"))
