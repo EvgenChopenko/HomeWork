@@ -45,7 +45,7 @@ def bintodigit(digit_num):# digit_num разрядность системы / nu
         return int(num)
     return binto
 #------------------------------------------------------------------------------------------------------------
-def dectodigital(digit_num):# функция преобразвет любое 10 число в формат digit_num: (2,8,16)-разрядность
+def dectodigital(digit_num):# функция преобразвет int в формат digit_num: (2,8,16)-разрядность(string)
     def decto(number):
         s = list()
         if number == 0:
