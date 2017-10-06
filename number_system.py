@@ -79,17 +79,17 @@ def dec2hex(number):#return str
         return None
 #------------------------------------------------------------------------------------------------------------
 def  bin2dec(number):#return int
-    number=str_type(number)
+    number=str_type(number.strip())
     s=bintodigit(2)
     return s(number)
 
 def oct2dec(number):#return int
-    number = str_type(number)
+    number = str_type(number.strip())
     s = bintodigit(8)
     return s(number)
 
 def hex2dec(number):#return int
-    number = str_type(number)
+    number = str_type(number.strip())
     s = bintodigit(16)
     return s(number)
 #___________________________________________________________________________
@@ -98,7 +98,7 @@ def hex2dec(number):#return int
 if (__name__=="__main__"):
     print("bin to dec:",bin2dec("10100<11010"))
     print("oct_to_dec:",oct2dec("755"))
-    print("hex to_dec:",hex2dec("ABCDEF."))
+    print("hex to_dec:",hex2dec("ABCDEF.   "))
     print("dec To bin:",dec2bin(3))
     print("dec To oct:",dec2oct(8))
     print("dec To 16:", dec2hex(3))
