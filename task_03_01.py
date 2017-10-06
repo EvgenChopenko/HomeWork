@@ -5,3 +5,5 @@ def get_days_to_new_year():
     delta = firs_date_next_year-datetime.date.today()
     return int(delta.days)
 
+if (__name__=="__main__"):
+    print(get_days_to_new_year())
