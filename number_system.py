@@ -99,9 +99,9 @@ if (__name__=="__main__"):
     print("bin to dec:",bin2dec("10100<11010"))
     print("oct_to_dec:",oct2dec("755"))
     print("hex to_dec:",hex2dec("ABCDEF."))
-    print("dec To bin:",dec2bin(250))
-    print("dec To oct:",dec2oct(250))
-    print("dec To 16:", dec2hex(250))
+    print("dec To bin:",dec2bin(3))
+    print("dec To oct:",dec2oct(8))
+    print("dec To 16:", dec2hex(3))
     print(convert("9"))
     print(str_type("ABV,.LL      "))
 
