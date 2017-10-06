@@ -10,6 +10,6 @@ while n < len(lst):
             #print(i)
     n += 1
 
-s= ','.join([str(m) for m in lst])
-s=s.replace(" ","")
+s= ', '.join([str(m) for m in lst])
+#s=s.replace(" ","")
 print(s)# ужасный способ вывода ((
