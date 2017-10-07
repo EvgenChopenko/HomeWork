@@ -9,16 +9,16 @@ def read_data(name):# функция считывает файл если фай
         return None
 
 
+#__________________________________________________________________________
 
-
-def to_DICT(str):
+def to_DICT(str):# парс файла  и формирования его в словарь.
     s=""
     z=" "
     inf=""
     dict={}
     #print(str)
-    str=str.replace("\n","~")
-    str = str.replace(" ", "#")
+    str=str.replace("\n","~")# переход на следушию строку замене ~
+    str = str.replace(" ", "#")# пробел на #
     #print(str)
     for i in str:
         if i != "#":
@@ -33,11 +33,11 @@ def to_DICT(str):
                 z = " "
                 inf = ""
                 s = ""
-            if(s == "OK~") or (s=="Moved") :
+            if(s == "OK~") or (s=="Moved") :# ключевые слова возможно дополнения
                 dict["status_message"] = s.strip("~")
                 s = ""
                 inf = ""
-            if (s == "Permanently~"):
+            if (s == "Permanently~"):# игнор данных в файле
                 s = ""
                 inf = ""
             if (s == "HTTP/1.1~"):
@@ -57,7 +57,7 @@ def to_DICT(str):
                 dict["method"]=s
                 s=""
                 inf=""
-            if (s == "Permanently~"):
+            if (s == "Permanently~"):# игнор данных в файле
                 s = ""
                 inf = ""
             elif (s=="ОК")or(s=="Moved"):
@@ -69,13 +69,14 @@ def to_DICT(str):
                 s = ""
                 inf = ""
     return dict
-
-def writeToJSON(name,DICT):
+#_________________________________________________________________________________________
+def writeToJSON(name,DICT):#запись JSON
     with open(name,"w") as file:
         json.dump(DICT,file,indent=4)
+#_____________________________________________________________________________________________
 
 
-def http_headers_to_json(file_in_html,file_out_json):
+def http_headers_to_json(file_in_html,file_out_json):# основная функция
     Dict={}
     Dict=to_DICT(read_data(file_in_html))
     writeToJSON(name=file_out_json,DICT=Dict)
@@ -83,7 +84,7 @@ def http_headers_to_json(file_in_html,file_out_json):
 
 
 
-
+#________проверка ______________________________________________
 
 if(__name__=="__main__"):
     http_headers_to_json("headers-1.txt","result-1.json")

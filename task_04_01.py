@@ -72,7 +72,7 @@ def write_list(list,name):
 
 
 
-
+# проверка _______________________________________________
 
 if(__name__=="__main__"):
   s= strTOint_list(read_data())
@@ -80,7 +80,8 @@ if(__name__=="__main__"):
   dele=datadelto(n,s)
   print(d)
   print(dele)
-
+#_______________________________________________________________________
+# реализация
 
 
 s= strTOint_list(read_data())
