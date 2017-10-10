@@ -12,62 +12,56 @@ def read_data(name):# функция считывает файл если фай
 #__________________________________________________________________________
 
 def to_DICT(str):# парс файла  и формирования его в словарь.
-    s=""
-    z=" "
+    s=" "
+    z=""
     inf=""
     dict={}
-    #print(str)
-    str=str.replace("\n","~")# переход на следушию строку замене ~
-    str = str.replace(" ", "#")# пробел на #
-    #print(str)
     for i in str:
-        if i != "#":
+
+        if (s == "HTTP/1.1") or (s == " HTTP/1.1")or (s == "  HTTP/1.1"):
+            dict["protocol"] = s.strip(" ")
+            s=" "
+            inf=""
+        elif((s=="  301") or (s =="  200") or s==("200") or s=="300" ):
+            dict["status_code"] = s.strip(" ")
+            s=" "
+            inf=""
+        elif(s=="  OK") or (s=="  Moved Permanently") or (s=="OK") or (s==" OK") or s=="Moved Permanently":
+            dict["status_message"] = s.strip(" ")
+            s=" "
+            inf=""
+        elif (s == "GET" or s == " GET" or s == "  GET"):
+            dict["method"]=s.strip(" ")
+            s=" "
+            inf=""
+        elif (z!="" and inf!=""):
+            dict[z.strip(" ")]=inf.strip(" ")
+        if i == " ":
+            if s== "  /python-developer":
+                #print("Adsf")
+                dict["uri"] = s.strip(" ")
+                s = " "
+                inf = ""
+            if s[-1]==":":
+                z = s.replace(":","")
+                inf = ""
+                s=" "
+            elif s[-1]!=":":
+                s=s+i
+
+        elif i != "\n":
             s=s+i
-            if z[-1]==":":
-                inf = inf+i
-                s=""
-            elif(z[-1]!=":"):
-                z = s
-            if (i =="~") and (inf != ""):
-                dict[z.strip(":")] = inf.strip("~")
-                z = " "
-                inf = ""
-                s = ""
-            if(s == "OK~") or (s=="Moved") :# ключевые слова возможно дополнения
-                dict["status_message"] = s.strip("~")
-                s = ""
-                inf = ""
-            if (s == "Permanently~"):# игнор данных в файле
-                s = ""
-                inf = ""
-            if (s == "HTTP/1.1~"):
-                dict["protocol"] = s.strip("~")
-                s = ""
-                inf = ""
-        elif i == "#":
-            if (s =="HTTP/1.1"):
-                dict["protocol"]=s
-                s=""
-                inf=""
-            elif(s=="301") or s=="200":
-                dict["status_code"]=s
-                s=""
-                inf=""
-            elif (s=="GET"):
-                dict["method"]=s
-                s=""
-                inf=""
-            if (s == "Permanently~"):# игнор данных в файле
-                s = ""
-                inf = ""
-            elif (s=="ОК")or(s=="Moved"):
-                dict["status_message"]=s
-                s=""
-                inf=""
-            elif (z[0] == "/"):
-                dict["uri"] = s
-                s = ""
-                inf = ""
+        elif (i=="\n"):
+            inf = s
+            s=" "
+
+
+
+
+
+
+
+
     return dict
 #_________________________________________________________________________________________
 def writeToJSON(name,DICT):#запись JSON
