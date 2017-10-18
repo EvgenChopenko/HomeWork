@@ -5,11 +5,14 @@ from collections import namedtuple
 def return_namedtuple(*args):
 
     def decarator(func):
-        Nturple = namedtuple('Nturple',['name','digital'])
+        Nturple = namedtuple('Nturple',[*args])
         def wrapper(*argsdunc,**kwargsfunc):
             s=func(*argsdunc,**kwargsfunc)
             if(isinstance(s,tuple)):
-                p=Nturple (name=args, digital=s)
+                try:
+                    p=Nturple(*s)
+                except:
+                    return s
                 return (p)
             else:
                  return s
@@ -33,7 +36,7 @@ if(__name__=='__main__'):
 
     @return_namedtuple('one', 'two', 'three')
     def func2():
-        return 1, 2, 3
+        return 1, 2, 3,4
 
     print(func1())
     print(func2())
