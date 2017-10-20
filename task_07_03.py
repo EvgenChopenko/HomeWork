@@ -3,7 +3,9 @@ import os
 
 def strict_argument_types(func):
     from inspect import signature
+    from functools import wraps
     sig = signature(func)
+    @wraps(func)
     def wrapper(*args,**kwargs)->sig.return_annotation:
         #sig = signature(func)
         #print(sig.return_annotation)
@@ -23,15 +25,17 @@ def strict_argument_types(func):
 def strict_return_type(func):
     from inspect import signature
     from collections import Iterable
+    from functools import wraps
     sig = signature(func)
+    @wraps(func)
     def wrapper (*args,**kwargs)->sig.return_annotation:
-        print(sig.return_annotation)
+        #print(sig.return_annotation)
         s2=sig.return_annotation
         s1=func(*args,**kwargs)
         if isinstance(s2,Iterable) and isinstance(s1,Iterable):
             s2 = [i for i in sig.return_annotation]
             s1 = tuple(func(*args,**kwargs))
-            print(s2,s1)
+            #print(s2,s1)
             if len(s1) == len(s2):
                 for i in range(len(s1)):
                     if not isinstance(s1[i], s2[i]):
