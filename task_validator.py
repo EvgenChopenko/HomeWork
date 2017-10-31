@@ -21,7 +21,7 @@ class Validator(metaclass=ABCMeta):
 
     type_val={}
     @classmethod
-    def add_type(cls,name,klass):
+    def add_type(cls,klass,name):
         if issubclass(klass,Validator):
             cls.type_val[name]=klass
         else:
@@ -97,5 +97,5 @@ class DateTimeValidator(Validator):
 
 
 
-Validator.add_type('email',EMailValidator)
-Validator.add_type('datetime',DateTimeValidator)
+Validator.add_type(EMailValidator,'email')
+Validator.add_type(DateTimeValidator,'datetime')
