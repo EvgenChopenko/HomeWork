@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 
 
-class ValidExseps(Exception):
+class ValidatorException(Exception):
     pass
 
 class Validator(metaclass=ABCMeta):
@@ -25,7 +25,7 @@ class Validator(metaclass=ABCMeta):
         if issubclass(klass,Validator):
             cls.type_val[name]=klass
         else:
-            raise ValidExseps ('Class {} is not Validator!'.format(klass))
+            raise ValidatorException ('Class {} is not Validator!'.format(klass))
 
     @classmethod
     def get_instance(cls,name,*args,**kwargs):
@@ -33,7 +33,7 @@ class Validator(metaclass=ABCMeta):
         if s is not None:
             return s(*args,**kwargs)
         else:
-            raise ValidExseps ( 'Validator with name "{}" not found'.format(name))
+            raise ValidatorException ( 'Validator with name "{}" not found'.format(name))
 
 
 
