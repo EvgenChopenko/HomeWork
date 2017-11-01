@@ -22,6 +22,8 @@ class Validator(metaclass=ABCMeta):
     type_val={}
     @classmethod
     def add_type(cls,name,klass):
+        if not name:
+            raise ValidatorException('Validator must have a name!')
         if issubclass(klass,Validator):
             cls.type_val[name]=klass
         else:
