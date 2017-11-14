@@ -217,7 +217,7 @@ if __name__ == '__main__':
     # print(next(div))
     # print(next(div))
     # print(next(div))
-    i=iter(div)
+    #i=iter(div)
     print(next(div),"cылки")
     print(div.children)
     print(div.count)
