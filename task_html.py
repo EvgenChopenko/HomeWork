@@ -87,17 +87,30 @@ class Tag(object):
     def name(self,data):
         self.__name=data
 
+    def __iter__(self):
+        return self
+    def __next__(self):
+        raise StopIteration
 
     # def __str__(self):
     #     s = ''.join([' ' + k + '="' + v + '"'
     #                  for k, v in self.__attributes.items() if k and v])
     #     return '<{}{}>'.format(self.__name, s)
 
+    # def __str__(self):
+    #     result = '<' + self._name
+    #     for key, value in self._attributes.items():
+    #         result += ' ' + key + '="' + value + '"'
+    #     result += '>'
+    #     return result
+
 
 class ContainerTag(Tag):
-    __slots__ = ('__count')
+    __slots__ = ('count','__itert')
     def __init__(self,name,**kwrgs):
         super().__init__(name,**kwrgs)
+        self.__itert=None
+        self.count=0
 
 
 
@@ -110,7 +123,7 @@ class ContainerTag(Tag):
            (self.last_child).nextSibling=tag
 
        self.last_child=tag
-       tag.nextSibling
+       #tag.nextSibling
        tag.parent=self
 
 
@@ -125,6 +138,7 @@ class ContainerTag(Tag):
 
     @firstChild.setter
     def firstChild(self,data):
+        self.__itert=data
         self.__firstChild =data
 
     @firstChild.deleter
@@ -135,31 +149,61 @@ class ContainerTag(Tag):
         return self.__lastChild
     @last_child.setter
     def last_child(self,data):
+        print(self.count)
         self.__lastChild=data
 
     @last_child.deleter
     def last_child(self,data):
         del self.__lastChild
 
+    def __iter__(self):
+        # print(self.__itert,"вот это из итератора")
+        return self.__itert
+    def __next__(self):
+        if self.count == 0 and self.__itert is not None:
+            self.count = 1
+            return self.__itert
+        elif self.__itert is not None and self.__count!=0:
+            self.__itert=(self.__itert).nextSibling
+            self.count +=1
+            return self.__itert
+        elif self.firstChild==self.__lastChild:
+            self.count += 1
+            return self.__lastChild
+        else:
+            raise StopIteration
+
+    # def __str__(self):
+    #     result = '<' + self._name
+    #     for key, value in self._attributes.items():
+    #         result += ' ' + key + '="' + value + '"'
+    #     result += '>'
+    #     for item in self.children:
+    #         result += str(item)
+    #     result += '</' + self._name + '>'
+    #     return result
+
     @property#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     def children(self):
-        raise TagException('Not a container tag!')
 
-
-
-
+        return next(self)
+    @children.setter
+    def  children(self,data):
+        raise TagException('Not setter children!')
 if __name__ == '__main__':
     img = Tag('img')
     img.src = '/logo.png'
     # img.parent='asda'
     img.alt = 'Логотип'
     h = Tag('h')
+    z = Tag('z')
     h.src = '/logo.png'
     # img.parent='asda'
     h.alt = 'Логотип'
     div = ContainerTag('div')
     div.append_child(img)
     div.append_child(h)
+    div.append_child(z)
     print(img.parent,"img parenst")
     print(img.nextSibling,"img следуюший")
     print(img.previousSibling,"img преведуший")
@@ -168,6 +212,14 @@ if __name__ == '__main__':
     print(h.previousSibling, "h преведуший")
     print(div.last_child,"div последний")
     print(div.firstChild,"div первый")
-
+    # i= iter(div)
+    # print(next(div))
+    # print(next(div))
+    # print(next(div))
+    # print(next(div))
+    i=iter(div)
+    print(next(div),"cылки")
+    print(div.children)
+    print(div.count)
 
 
