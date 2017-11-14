@@ -185,8 +185,8 @@ class ContainerTag(Tag):
 
     @property#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     def children(self):
-
-        return next(self)
+        for i in self:
+            yield i
     @children.setter
     def  children(self,data):
         raise TagException('Not setter children!')
