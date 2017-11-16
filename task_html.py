@@ -40,10 +40,10 @@ class Tag(object):
 #___________________________________________________________
     @property
     def previousSibling(self):
-        if self.__previousSibling is not None:
+  #      if self.__previousSibling is not None:
             return self.__previousSibling
-        else:
-            raise TagException("previousSibling None")
+ #       else:
+#            raise TagException("previousSibling None")
     @previousSibling.setter
     def previousSibling(self,value):
         if isinstance(value,Tag) or isinstance(value,ContainerTag):
@@ -134,7 +134,7 @@ class Tag(object):
     def __str__(self):
         s=""
         if not isinstance(self.__attributes.values(),Tag) :
-                s = ''.join([' ' + k + '="' + v + '"' for k, v in self.__attributes.items() if not isinstance( v,Tag)])
+                s = ''.join([' ' + k + '="' + v + '"' for k, v in self.__attributes.items() if isinstance( v,str)])
                 return '<{}{}>'.format(self.__name, s)
 
         else:
@@ -174,9 +174,30 @@ class ContainerTag(Tag):
 
 
 
-    def insert_before(tag, next_sibling):
-        pass#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111
+    def insert_before(self,tag, next_sibling):
+        #tag.parent = self
+        if next_sibling is None:
+            self.append_child(tag)
+            return 0
+        if next_sibling.parents == self:
+            raise TagException ("Error tag not parents")
+        if next_sibling == self.firstChild:
+            self.firstChild=tag
 
+            tag.previousSibling = next_sibling.previousSibling
+            tag.nextSibling = next_sibling
+            next_sibling.previousSibling=tag
+            tag.parent = self
+            return 0
+        if next_sibling != self.firstChild:
+           for i in self:
+               if i.nextSibling == next_sibling:
+                   tag.previousSibling = next_sibling.previousSibling
+                   tag.nextSibling = next_sibling
+                   next_sibling.previousSibling = tag
+                   tag.parent = self
+                   return 0
+        return 1
     @property
     def firstChild(self):
        return self.__firstChild
@@ -216,7 +237,7 @@ class ContainerTag(Tag):
 
 
 
-    @property#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    @property
     def children(self):
         for i in self:
             yield i
@@ -228,7 +249,7 @@ class ContainerTag(Tag):
     def __str__(self):
         result = ""
         result = '<' + self.name
-        result += ''.join([' ' + k + '="' + v + '"' for k, v in self.atr().items()if not isinstance( v,Tag)])
+        result += ''.join([' ' + k + '="' + v + '"' for k, v in self.atr().items()if isinstance(v,str)])
         result += ">\n"
         for i in self.children:
              result+= str(i)+"\n"
@@ -255,7 +276,8 @@ if __name__ == '__main__':
     # print(img.ToStr())
     div.append_child(img)
     div.append_child(h)
-    div.append_child(z)
+    #div.append_child(z)
+    print(div.insert_before(z,img))
     # print(img.parent,"img parenst1")
     # print(img.nextSibling,"img следуюший2")
     # print(img.previousSibling,"img преведуший3")
